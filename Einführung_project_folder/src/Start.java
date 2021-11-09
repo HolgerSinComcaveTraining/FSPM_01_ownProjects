@@ -17,6 +17,12 @@ public class Start {
 		System.out.println(stuhl2);
 		System.out.println(stuhl3);
 		System.out.println(stuhl4);
+		
+		String alt = "Test";
+		String a = "Alpha";
+		String b = "Anna";
+		alt.toUpperCase();
+		System.out.println(a.compareTo(b));
 	}
 
 }
