@@ -1,3 +1,4 @@
+package kontoaufgabe;
 
 public class Konto {
 	private Person person;

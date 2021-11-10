@@ -1,3 +1,4 @@
+package kontoaufgabe;
 
 public class KontoTest {
 	public static void kontoVergleich(Konto konto1, Konto konto2) {

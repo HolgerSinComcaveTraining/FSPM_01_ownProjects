@@ -1,3 +1,4 @@
+package kontoaufgabe;
 
 public class Person {
 	private String name;
