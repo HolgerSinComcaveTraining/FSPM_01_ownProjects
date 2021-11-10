@@ -7,8 +7,8 @@ import java.util.Scanner;
 public class EasyWrite {
 
 	public static void main(String[] args) {
-		File file = new File("C:\\Users\\hsin128\\Desktop\\Workbench\\WB_FSPM\\FSPM_01_ownProjects\\Liste.md");
-		File newFile = new File("C:\\Users\\hsin128\\Desktop\\Workbench\\WB_FSPM\\FSPM_01_ownProjects\\ListeNeu.md");
+		File file = new File("..\\Liste.md");
+		File newFile = new File("..\\ListeNeu.md");
 
 		try {
 			FileWriter fw = new FileWriter(newFile, true);
