@@ -6,5 +6,7 @@ public class Rennwagen extends Auto {
 		super(220);
 		
 	}
+	
+	
 
 }

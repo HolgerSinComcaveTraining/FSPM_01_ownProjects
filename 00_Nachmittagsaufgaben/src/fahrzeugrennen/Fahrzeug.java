@@ -2,7 +2,7 @@ package fahrzeugrennen;
 
 public class Fahrzeug {
 	private double position = 0;
-	private double speed;
+	private double speed = 0;
 	private int maxSpeed = 0;
 	private int wheels = 0;
 
@@ -10,7 +10,6 @@ public class Fahrzeug {
 	
 	
 	public Fahrzeug(int maxSpeed, int wheels) {
-		super();
 		this.maxSpeed = maxSpeed;
 		this.wheels = wheels;
 	}
@@ -45,7 +44,9 @@ public class Fahrzeug {
 
 	@Override
 	public String toString() {
-		return "Fahrzeug "+ this.getClass()  +" [position=" + position + ", speed=" + speed + ", maxSpeed=" + maxSpeed + ", wheels=" + wheels
+		String classString = this.getClass().toString();
+		classString = classString.substring(classString.lastIndexOf('.')+1);
+		return "Fahrzeug "+ classString  +" [position=" + position + ", speed=" + speed + ", maxSpeed=" + maxSpeed + ", wheels=" + wheels
 				+ "]";
 	}
 
