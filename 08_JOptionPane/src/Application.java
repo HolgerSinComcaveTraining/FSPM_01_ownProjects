@@ -1,11 +1,12 @@
 import confirmDialog.ConfirmDialogDemo;
 import inputDialog.InputDialogDemo;
+import messageDialog.MessageDialogDemo;
 import optionDialog.OptionDialogDemo;
 
 public class Application {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		
 //		ConfirmDialogDemo.simpleConfirmDialog();
 //		ConfirmDialogDemo.confirmDialogTitleButtons();
 //		ConfirmDialogDemo.confirmDialogTitleButtonsMessageType();
@@ -15,8 +16,13 @@ public class Application {
 //		OptionDialogDemo.optionDialogIntegerOptions();
 //		OptionDialogDemo.optionDialogObjectOptions();
 		
-		InputDialogDemo.inputDialog();
+//		InputDialogDemo.inputDialog();
+//		InputDialogDemo.inputDialogDefault();
+//		InputDialogDemo.inputDialogDropdown();
 		
+		MessageDialogDemo.messageDialog();
+		MessageDialogDemo.messageDialogTitelMessageType();
+		MessageDialogDemo.messageDialogTitelMessageTypeIcon();
 	}
 
 }
