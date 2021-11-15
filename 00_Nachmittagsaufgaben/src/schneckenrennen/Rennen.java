@@ -8,37 +8,52 @@ public class Rennen {
 	private int schneckenCounter;
 	private ArrayList<Rennschnecke> schneckenListe = new ArrayList<Rennschnecke>();
 	private int trackLength;
+	private int repeatCounter;
 	
 	public Rennen(String name, int trackLength) {
 		this.name = name;
 		this.trackLength = trackLength;
 	}
-
-	public boolean addRennschnecke(Rennschnecke schnecke) {
-		
-		return schneckenListe.add(schnecke);
-		
-	}
-
-	public boolean removeRennschnecke(String name) {
-		for (Rennschnecke rennschnecke : schneckenListe) {
-			if (rennschnecke.getName().equals(name)){
-				return schneckenListe.remove(rennschnecke);
-			}
-		}
-		return false;
-		
-	}
+	
 
 	@Override
 	public String toString() {
 		String returnString = "";
-		returnString = "Rennen [name=" + name + ", schneckenCounter=" + schneckenCounter + ", trackLength=" + trackLength + "]" + System.lineSeparator();
+		returnString = "Rennen [name=" + name + ", schneckenCounter=" + schneckenCounter + ", trackLength=" + trackLength + ", Durchläufe=" + repeatCounter + System.lineSeparator();
 		
 		for (Rennschnecke rennschnecke : schneckenListe) {
-			returnString = returnString + rennschnecke + System.lineSeparator(); 
+			returnString = returnString + "\t" + rennschnecke + System.lineSeparator(); 
 		}
-		return returnString;
+		return returnString + "]";
+	}
+	
+	public Rennschnecke getSchneckeByName(String name) {
+		for (Rennschnecke rennschnecke : schneckenListe) {
+			if (rennschnecke.getName().equals(name)){
+				return rennschnecke;
+			}
+		}
+		return null;
+	}
+
+
+	public void addRennschnecke(Rennschnecke schnecke) {
+		
+		schneckenListe.add(schnecke);
+		schneckenCounter = schneckenListe.size();
+		
+	}
+
+	public void removeRennschnecke(String name) {
+		Rennschnecke schnecke = getSchneckeByName(name); 
+		if (schnecke != null)
+		{
+			
+			schneckenListe.remove(schnecke);
+			schneckenCounter = schneckenListe.size();
+		}
+		
+		
 	}
 
 	public Rennschnecke ermittleGewinner() {
@@ -64,8 +79,10 @@ public class Rennen {
 	}
 	
 	public void durchfuehren() {
+		repeatCounter = 0;
 		while (ermittleGewinner() == null) {
 			lasseSchneckenKriechen();
+			repeatCounter++;
 		}
 		System.out.println("Der Gewinner ist: " + ermittleGewinner());
 		

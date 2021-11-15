@@ -16,10 +16,18 @@ public class App {
 		myRennen.addRennschnecke(rs3);
 		myRennen.addRennschnecke(rs4);
 		
-		myRennen.durchfuehren();
+//		myRennen.durchfuehren();
 		
+		Wettbüro wettbüro = new Wettbüro(myRennen,5);
 		
-		System.out.println(myRennen);
+		wettbüro.wetteAnnehmen("Schnecki", 10, "Player 1");
+		wettbüro.wetteAnnehmen("Schlumpfi", 20, "Player 2");
+		wettbüro.wetteAnnehmen("Blitzi", 30, "Player 3");
+		wettbüro.wetteAnnehmen("Schnelli", 40, "Player 4");
+		
+		wettbüro.rennenDurchfuehren();
+		
+//		System.out.println(myRennen);
 		
 	}
 
