@@ -1,5 +1,7 @@
 package schneckenrennen;
 
+import java.util.Random;
+
 public class Rennschnecke {
 
 	private String name;
@@ -55,6 +57,7 @@ public class Rennschnecke {
 	
 	public void krieche() {
 		position += Math.random() * maxSpeed;
+		
 	}
 	
 	
