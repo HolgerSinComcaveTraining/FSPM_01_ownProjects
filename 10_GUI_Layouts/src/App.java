@@ -6,9 +6,9 @@ public class App {
 		// TODO Auto-generated method stub
 //		GridLayoutDemo gld = new GridLayoutDemo();
 		
-//		BoxLayoutDemo boxLayoutDemo = new BoxLayoutDemo();
+		BoxLayoutDemo boxLayoutDemo = new BoxLayoutDemo();
 		
-		FlowLayoutDemo flowLayoutDemo = new FlowLayoutDemo();		
+//		FlowLayoutDemo flowLayoutDemo = new FlowLayoutDemo();		
 	}
 
 }
