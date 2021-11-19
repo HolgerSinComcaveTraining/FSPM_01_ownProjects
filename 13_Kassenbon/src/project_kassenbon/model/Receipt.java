@@ -5,12 +5,12 @@ import java.util.ArrayList;
 public class Receipt {
 
 	private String header = 
-			"╔════════════════════════╗" + System.lineSeparator() + 
-			"║     FreitagsShop 042   ║" + System.lineSeparator() + 
-			"║       Marchstr. 23     ║" + System.lineSeparator()+ 
-			"║       10587 Berlin     ║" + System.lineSeparator() + 
-			"║    ☏ 030 314 213 86    ║"+ System.lineSeparator() + 
-			"╚════════════════════════╝";
+			"╔═════════════════════════╗" + System.lineSeparator() + 
+			"║     FreitagsShop 042    ║" + System.lineSeparator() + 
+			"║       Marchstr. 23      ║" + System.lineSeparator()+ 
+			"║       10587 Berlin      ║" + System.lineSeparator() + 
+			"║    ☏ 030 314 213 86     ║"+ System.lineSeparator() + 
+			"╚═════════════════════════╝";
 
 	private ArrayList<ReceiptItem> receiptItemList = new ArrayList<ReceiptItem>();
 	
@@ -26,16 +26,32 @@ public class Receipt {
 		this.verkaeufer = verkaeufer;
 	}
 
+	
+	
+	public String getHeader() {
+		return header;
+	}
+
+	public ArrayList<ReceiptItem> getReceiptItemList() {
+		return receiptItemList;
+	}
+
+
+	public boolean addReceiptItem(ReceiptItem e) {
+		return receiptItemList.add(e);
+	}
+	
+	public boolean remove(Object o) {
+		return receiptItemList.remove(o);
+	}
+
 	@Override
 	public String toString() {
 		double summe = 0;
 		String returnString = "Receipt" + System.lineSeparator() + header + System.lineSeparator()
 				+ System.lineSeparator();
 		for (ReceiptItem receiptItem : receiptItemList) {
-			returnString += String.format("%-20s", receiptItem.getArtikel().getName())
-					+ String.format("%6.2f%n", receiptItem.getArtikel().getPreis() * receiptItem.getAnzahl());
-			returnString += String.format("%4d x", receiptItem.getAnzahl())
-					+ String.format("%8.2f%n", receiptItem.getArtikel().getPreis());
+			returnString += receiptItem.toStringPrint();
 			summe += receiptItem.getAnzahl() * receiptItem.getArtikel().getPreis();
 		}
 		returnString += System.lineSeparator();
@@ -48,9 +64,6 @@ public class Receipt {
 		return returnString;
 	}
 
-	public boolean addReceiptItem(ReceiptItem e) {
-		return receiptItemList.add(e);
-	}
 
 	public boolean addReceiptItem(String name, int anzahl) {
 		ReceiptItem newItem = ReceiptItem.createReceiptItem(name, anzahl);

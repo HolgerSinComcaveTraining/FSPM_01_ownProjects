@@ -12,17 +12,17 @@ public class Application {
 //		ConfirmDialogDemo.confirmDialogTitleButtonsMessageType();
 //		ConfirmDialogDemo.confirmDialogTitleButtonsMessageTypeIcon();
 		
-//		OptionDialogDemo.optionDialogStringOptions();
-//		OptionDialogDemo.optionDialogIntegerOptions();
-//		OptionDialogDemo.optionDialogObjectOptions();
+		OptionDialogDemo.optionDialogStringOptions();
+		OptionDialogDemo.optionDialogIntegerOptions();
+		OptionDialogDemo.optionDialogObjectOptions();
 		
 //		InputDialogDemo.inputDialog();
 //		InputDialogDemo.inputDialogDefault();
 //		InputDialogDemo.inputDialogDropdown();
 		
-		MessageDialogDemo.messageDialog();
-		MessageDialogDemo.messageDialogTitelMessageType();
-		MessageDialogDemo.messageDialogTitelMessageTypeIcon();
+//		MessageDialogDemo.messageDialog();
+//		MessageDialogDemo.messageDialogTitelMessageType();
+//		MessageDialogDemo.messageDialogTitelMessageTypeIcon();
 	}
 
 }

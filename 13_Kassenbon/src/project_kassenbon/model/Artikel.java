@@ -37,8 +37,12 @@ public class Artikel {
 
 	@Override
 	public String toString() {
-		return "Artikel [name=" + name + ", preis=" + preis + ", id=" + id + "]";
+		return String.format("%-2d#: ", id) + name;
 	}
+	
+//	public String toStringInclID() {
+//		return String.format("%-2d#:   ", id) + name;
+//	}
 
 	// eigene Methoden
 	public static boolean addArtikel(String name, double preis) {

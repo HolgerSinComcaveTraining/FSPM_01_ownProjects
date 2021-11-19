@@ -20,10 +20,19 @@ public class ReceiptItem {
 
 	@Override
 	public String toString() {
-		return "ReceiptItem [artikel=" + artikel + ", anzahl=" + anzahl + "]";
+		return anzahl + " x " + artikel.getName();
+	}
+	
+	public String toStringPrint() {
+		String returnString = String.format("%-18s", artikel.getName())
+				+ String.format("%8.2f%n", artikel.getPreis() * anzahl);
+		returnString += String.format("%4d x", anzahl)
+				+ String.format("%8.2f%n", artikel.getPreis());
+		return returnString;
 	}
 	
 	
+		
 	public static ReceiptItem createReceiptItem(String name, int anzahl) {
 		if (Artikel.getArtikelByName(name) != null ) {
 			return new ReceiptItem(Artikel.getArtikelByName(name), anzahl);
