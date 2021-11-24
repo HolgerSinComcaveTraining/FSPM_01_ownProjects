@@ -1,33 +1,32 @@
 package project_kassenbon_hsin.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
-public class Receipt {
+import project_kassenbon.model.IBon;
+import project_kassenbon.model.sortiment.ISortimentSpeicher;
+import project_kassenbon.model.sortiment.Produkt;
+import project_kassenbon.model.sortiment.Sortiment;
+import project_kassenbon_hsin.model.sortiment.DefaultProducts;
+
+public class Receipt implements IBon<ReceiptItem, String, String> {
 
 	private String header = 
 			"╔═════════════════════════╗" + System.lineSeparator() + 
 			"║     FreitagsShop 042    ║" + System.lineSeparator() + 
-			"║       Marchstr. 23      ║" + System.lineSeparator()+ 
+			"║       Marchstr. 23      ║" + System.lineSeparator() + 
 			"║       10587 Berlin      ║" + System.lineSeparator() + 
-			"║   ☏ 030 314 213 86 ☏   ║"+ System.lineSeparator() + 
+			"║   ☏ 030 314 213 86 ☏   ║" + System.lineSeparator() + 
 			"╚═════════════════════════╝";
 
 	private ArrayList<ReceiptItem> receiptItemList = new ArrayList<ReceiptItem>();
-	private Artikelliste artikelliste = new Artikelliste();
-	
+//	private Assortment assortment = new Assortment();
+	private Sortiment sortiment = new Sortiment(new DefaultProducts());
+
 	private String verkaeufer = "Herr Max Mustermann";
-	
-	
 
 	public Receipt() {
-		artikelliste.addArtikel("15 Fischstäbchen", 1.79);
-		artikelliste.addArtikel("Steaks", 3.99);
-		artikelliste.addArtikel("Naturell (1l)", 4.99);
-		artikelliste.addArtikel("Magnum Eiscreme", 2.99);
 
-		for (int i = 1; i <= 10; i++) {
-			artikelliste.addArtikel("Random Artikel " + i, 10.99 + i);
-		}
 	}
 
 	public String getVerkaeufer() {
@@ -38,8 +37,6 @@ public class Receipt {
 		this.verkaeufer = verkaeufer;
 	}
 
-	
-	
 	public String getHeader() {
 		return header;
 	}
@@ -48,19 +45,16 @@ public class Receipt {
 		return receiptItemList;
 	}
 
-
 	public boolean addReceiptItem(ReceiptItem e) {
 		return receiptItemList.add(e);
 	}
-	
+
 	public boolean remove(Object o) {
 		return receiptItemList.remove(o);
 	}
 
-	
-	
-	public Artikelliste getArtikelliste() {
-		return artikelliste;
+	public Sortiment getSortiment() {
+		return sortiment;
 	}
 
 	@Override
@@ -78,56 +72,79 @@ public class Receipt {
 		returnString += String.format("%26s%n", "=======");
 		returnString += System.lineSeparator();
 		returnString += "Es bediente Sie: \n" + verkaeufer;
-		
+
 		return returnString;
 	}
 
-
-//	public boolean addReceiptItem(String name, int anzahl) {
-//		ReceiptItem newItem = ReceiptItem.createReceiptItem(name, anzahl);
-//		if (newItem != null) {
-//			return receiptItemList.add(newItem);
-//		} else {
-//			return false;
-//		}
-//	}
-//
-//	public boolean addReceiptItem(int id, int anzahl) {
-//		ReceiptItem newItem = ReceiptItem.createReceiptItem(id, anzahl);
-//		if (newItem != null) {
-//			return receiptItemList.add(newItem);
-//		} else {
-//			return false;
-//		}
-//	}
-	
-
-
 	public boolean addReceiptItem(String name, int anzahl) {
-		
-		if (artikelliste.getArtikelByName(name) != null) {
-			ReceiptItem newItem = new ReceiptItem(artikelliste.getArtikelByName(name), anzahl);
-			return receiptItemList.add(newItem);
-		} else {
-			return false;
+		for (Produkt produkt : sortiment.getSortiment()) {
+			if (produkt.getBezeichnung().equalsIgnoreCase(name)) {
+				ReceiptItem newItem = new ReceiptItem(produkt, anzahl);
+				return receiptItemList.add(newItem);
+			}
 		}
+		return false;
 	}
 
 	public boolean addReceiptItem(int id, int anzahl) {
-		
-		if (artikelliste.getArtikelByID(id) != null) {
-			ReceiptItem newItem = new ReceiptItem(artikelliste.getArtikelByID(id), anzahl);
-			return receiptItemList.add(newItem);
-		} else {
-			return false;
+
+		for (Produkt produkt : sortiment.getSortiment()) {
+			if (produkt.getId() == id) {
+				ReceiptItem newItem = new ReceiptItem(produkt, anzahl);
+				return receiptItemList.add(newItem);
+			}
 		}
-		
-	}
-	
-	
-	
-	public void resetReceiptItemList() {
-		receiptItemList  = new ArrayList<ReceiptItem>();
+		return false;
+
 	}
 
+	public void resetReceiptItemList() {
+		receiptItemList = new ArrayList<ReceiptItem>();
+	}
+
+// Interface Methods
+
+	@Override
+	public void setLaden(String element) {
+		header = element;
+
+	}
+
+	@Override
+	public void addEintrag(ReceiptItem element) {
+		addReceiptItem(element);
+
+	}
+
+	@Override
+	public Collection<ReceiptItem> getEintraege() {
+		return receiptItemList;
+	}
+
+	@Override
+	public String verkaueferToString() {
+		return verkaeufer;
+	}
+
+	@Override
+	public String ladenToString() {
+		return header;
+	}
+
+	@Override
+	public String bonToString() {
+		return toString();
+	}
+
+	@Override
+	public void removeEintrag(ReceiptItem element) {
+		remove(element);
+	}
+
+	@Override
+	public void resetEintraege() {
+		resetReceiptItemList();
+	}
+	
+	
 }

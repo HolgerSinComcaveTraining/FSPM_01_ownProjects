@@ -6,10 +6,6 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/Projekt_Kassenbon/Kassenbon.jar">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry combineaccessrules="false" kind="src" path="/Projekt_Kassenbon"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

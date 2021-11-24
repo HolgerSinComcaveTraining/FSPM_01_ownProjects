@@ -2,7 +2,7 @@ package project_kassenbon_hsin.model;
 
 import java.util.ArrayList;
 
-public class Artikel {
+public class Product {
 
 	private String name;
 	private double preis;
@@ -11,7 +11,7 @@ public class Artikel {
 	private static int idCounter = 1;
 //	private static ArrayList<Artikel> artikelListe = new ArrayList<Artikel>();
 
-	public Artikel(int id, String name, double preis) {
+	public Product(int id, String name, double preis) {
 		this.id = id;
 		this.name = name;
 		this.preis = preis;

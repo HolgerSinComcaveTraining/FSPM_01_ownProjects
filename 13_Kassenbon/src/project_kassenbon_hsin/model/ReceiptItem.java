@@ -1,16 +1,18 @@
 package project_kassenbon_hsin.model;
 
+import project_kassenbon.model.sortiment.Produkt;
+
 public class ReceiptItem {
-	private Artikel artikel;
+	private Produkt produkt;
 	private int anzahl;
 
-	public ReceiptItem(Artikel artikel, int anzahl) {
-		this.artikel = artikel;
+	public ReceiptItem(Produkt produkt, int anzahl) {
+		this.produkt = produkt;
 		this.anzahl = anzahl;
 	}
 
-	public Artikel getArtikel() {
-		return artikel;
+	public Produkt getArtikel() {
+		return produkt;
 	}
 
 	public int getAnzahl() {
@@ -19,34 +21,16 @@ public class ReceiptItem {
 
 	@Override
 	public String toString() {
-		return anzahl + " x " + artikel.getName();
+		return anzahl + " x " + produkt.getBezeichnung();
 	}
 
 	public String toStringPrint() {
-		String returnString = String.format("%-18s", artikel.getName())
-				+ String.format("%8.2f%n", artikel.getPreis() * anzahl);
+		String returnString = String.format("%-18s", produkt.getBezeichnung())
+				+ String.format("%8.2f%n", produkt.getPreis() * anzahl);
 		if (anzahl > 1) {
-			returnString += String.format("%4d x", anzahl) + String.format("%8.2f%n", artikel.getPreis());
+			returnString += String.format("%4d x", anzahl) + String.format("%8.2f%n", produkt.getPreis());
 		}
 		return returnString;
 	}
-//
-//	public static ReceiptItem createReceiptItem(String name, int anzahl) {
-//		if (Artikel.getArtikelByName(name) != null) {
-//			return new ReceiptItem(Artikel.getArtikelByName(name), anzahl);
-//		} else {
-//			return null;
-//		}
-//
-//	}
-//
-//	public static ReceiptItem createReceiptItem(int id, int anzahl) {
-//		if (Artikel.getArtikelByID(id) != null) {
-//			return new ReceiptItem(Artikel.getArtikelByID(id), anzahl);
-//		} else {
-//			return null;
-//		}
-//
-//	}
 
 }

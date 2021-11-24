@@ -19,6 +19,8 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JTextField;
 import java.awt.Component;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+
 import java.awt.Dimension;
 import java.awt.Font;
 import javax.swing.border.CompoundBorder;
@@ -36,6 +38,9 @@ import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;
 import javax.swing.Action;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.math.RoundingMode;
@@ -60,21 +65,7 @@ public class MainFrame extends JFrame {
 	private JButton btnDeleteItem;
 	private JFormattedTextField formattedTextField_Preis;
 
-	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					MainFrame frame = new MainFrame();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
+
 
 	/**
 	 * Create the frame.
@@ -160,6 +151,21 @@ public class MainFrame extends JFrame {
 		textField_Artikelname.setToolTipText("Artikelbezeichnung");
 		panel_artikelTextFields.add(textField_Artikelname);
 		textField_Artikelname.setColumns(20);
+		textField_Artikelname.addFocusListener(new FocusListener() {
+			
+			@Override
+			public void focusLost(FocusEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void focusGained(FocusEvent e) {
+				// TODO Auto-generated method stub
+				textField_Artikelname.selectAll();
+			}
+		});
+		
 		
 
 // eigener Number Formatter double		
@@ -178,6 +184,17 @@ public class MainFrame extends JFrame {
 
 		formattedTextField_Preis = new JFormattedTextField(doubleFormatter);
 		formattedTextField_Preis.setColumns(5);
+		formattedTextField_Preis.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				SwingUtilities.invokeLater(new Runnable() {
+		            @Override
+		            public void run() {
+		            	formattedTextField_Preis.selectAll();
+		            }
+				});
+			}
+		});
 		panel_artikelTextFields.add(formattedTextField_Preis);
 
 		JPanel panel_itemCount = new JPanel();
@@ -200,6 +217,24 @@ public class MainFrame extends JFrame {
 
 		formattedTextField_itemCount = new JFormattedTextField(integerFormatter);
 		formattedTextField_itemCount.setColumns(5);
+		formattedTextField_itemCount.addFocusListener(new FocusListener() {
+			
+			@Override
+			public void focusLost(FocusEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void focusGained(FocusEvent e) {
+				SwingUtilities.invokeLater(new Runnable() {
+		            @Override
+		            public void run() {
+		            	formattedTextField_itemCount.selectAll();
+		            }
+				});
+			}
+		});
 		panel_itemCount.add(formattedTextField_itemCount);
 
 		JPanel panel_deleteItem = new JPanel();
@@ -232,10 +267,6 @@ public class MainFrame extends JFrame {
 
 		JScrollPane scrollPane = new JScrollPane(panel_right);
 
-//		panel_right.add(scrollPane);
-
-//		receiptTextPane = new JTextPane();
-//		scrollPane.setViewportView(receiptTextPane);
 		receiptTextPane.setFont(new Font("Courier New", Font.PLAIN, 11));
 
 		splitPane.setRightComponent(scrollPane);
