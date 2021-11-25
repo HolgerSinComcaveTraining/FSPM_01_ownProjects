@@ -5,40 +5,40 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
-import javax.swing.plaf.ComboBoxUI;
 
-import project_kassenbon_hsin.model.Product;
-import project_kassenbon_hsin.model.Assortment;
-import project_kassenbon_hsin.model.Receipt;
-import project_kassenbon_hsin.model.ReceiptItem;
+import project_kassenbon.model.Artikel;
+import project_kassenbon.model.IBon;
+import project_kassenbon.model.Kassenbon;
+import project_kassenbon.model.KassenbonEintrag;
+import project_kassenbon.model.sortiment.Produkt;
+import project_kassenbon.model.sortiment.Sortiment;
+import project_kassenbon_hsin.model.sortiment.DefaultProducts;
 import project_kassenbon_hsin.view.MainFrame;
 
-public class MainKassenbonProjektController {
+public class SchirmerIBonController_V2 {
 
 	private MainFrame mainFrame;
-	private JComboBox addItemComboBox;
-	private JComboBox deleteItemComboBox;
-	private Receipt receipt;
+	private JComboBox<Object> addItemComboBox;
+	private JComboBox<Object> deleteItemComboBox;
+	private IBon<KassenbonEintrag, String, String[]> iBon;
+	private Sortiment sortiment;
 	
 	private final Action addNewItemAction = new AddNewItemAction();
 
-	public MainKassenbonProjektController() {
+	public SchirmerIBonController_V2() {
 
 		EventQueue.invokeLater(new Runnable() {
 
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
 				try {
 					mainFrame = new MainFrame();
 					init();
@@ -52,17 +52,19 @@ public class MainKassenbonProjektController {
 
 	public void init() {
 		
+		DefaultProducts dp = new DefaultProducts();
+		sortiment = new Sortiment(dp);
 		
-		receipt = new Receipt();
-		receipt.addReceiptItem(1, 3);
-		receipt.addReceiptItem(2, 5);
-		receipt.addReceiptItem(3, 6);
-		receipt.addReceiptItem(4, 2);
-
-		System.out.println(receipt);
+		
+		iBon = new Kassenbon();
+		
+		iBon.addEintrag(new KassenbonEintrag(sortiment.getProduktByID(9), 15));
+		iBon.addEintrag(new KassenbonEintrag(sortiment.getProduktByID(1), 3));
+		iBon.addEintrag(new KassenbonEintrag(sortiment.getProduktByID(2), 5));
+		iBon.addEintrag(new KassenbonEintrag(sortiment.getProduktByID(3), 6));
+		iBon.addEintrag(new KassenbonEintrag(sortiment.getProduktByID(4), 2));
 
 		addItemComboBox = mainFrame.getComboBox_addItem();
-
 		deleteItemComboBox = mainFrame.getComboBox_deleteItem();
 
 		updateGUI();
@@ -99,9 +101,9 @@ public class MainKassenbonProjektController {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ReceiptItem toDeleteReceiptItem = (ReceiptItem) deleteItemComboBox.getSelectedItem();
+				KassenbonEintrag toDeleteReceiptItem = (KassenbonEintrag) deleteItemComboBox.getSelectedItem();
 //				System.out.println(toDeleteReceiptItem);
-				receipt.remove(toDeleteReceiptItem);
+				iBon.removeEintrag(toDeleteReceiptItem);
 				updateGUI();
 			}
 		});
@@ -113,7 +115,7 @@ public class MainKassenbonProjektController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String newVerkaeuferName = mainFrame.getTxtField_Verkaeufer().getText();
-				receipt.setVerkaeufer(newVerkaeuferName);
+				iBon.setVerkaeufer(newVerkaeuferName);
 				updateGUI();
 			}
 		});
@@ -122,7 +124,7 @@ public class MainKassenbonProjektController {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				receipt.resetReceiptItemList();
+				iBon.resetEintraege();
 				updateGUI();
 			}
 		});
@@ -131,8 +133,8 @@ public class MainKassenbonProjektController {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				mainFrame.getTextField_Artikelname().setText(((Product) addItemComboBox.getSelectedItem()).getName());
-				mainFrame.getFormattedTextField_Preis().setValue((((Product) addItemComboBox.getSelectedItem()).getPreis()));
+				mainFrame.getTextField_Artikelname().setText(((Produkt) addItemComboBox.getSelectedItem()).getBezeichnung());
+				mainFrame.getFormattedTextField_Preis().setValue((((Produkt) addItemComboBox.getSelectedItem()).getPreis()));
 				//updateGUI();
 				
 			}
@@ -144,11 +146,22 @@ public class MainKassenbonProjektController {
 	
 	
 	private void updateGUI() {
-		addItemComboBox.setModel(new DefaultComboBoxModel(receipt.getArtikelliste().getListe().toArray()));
-		deleteItemComboBox.setModel(new DefaultComboBoxModel(receipt.getReceiptItemList().toArray()));
-		mainFrame.getReceiptTextPane().setText(receipt.toString());
+		addItemComboBox.setModel(new DefaultComboBoxModel(sortiment.getSortiment().toArray()));
+		deleteItemComboBox.setModel(new DefaultComboBoxModel(iBon.getEintraege().toArray()));
+		mainFrame.getReceiptTextPane().setText(iBon.toString());
 		mainFrame.getFormattedTextField_itemCount().setText("1");
 	}
+	
+	
+	private Produkt getProduktByName(String name) {
+		for (Produkt produkt : sortiment.getSortiment()) {
+			if (produkt.getBezeichnung().equalsIgnoreCase(name)) {
+				return produkt;
+			}
+		}
+		return null;
+		
+	} 
 
 	public class AddNewItemAction extends AbstractAction{
 		public AddNewItemAction() {
@@ -157,24 +170,30 @@ public class MainKassenbonProjektController {
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			Product toAddArtikel = receipt.getArtikelliste().getProductByName(mainFrame.getTextField_Artikelname().getText());
-			if (toAddArtikel == null) {
+			if (mainFrame.getTextField_Artikelname().getText().equals("")) {
+				System.out.println("Artikelbezeichnung darf nicht leer sein");
+				return;
+			}
+			Produkt produktToAdd = getProduktByName(mainFrame.getTextField_Artikelname().getText());
+			if (produktToAdd == null) {
 				NumberFormat numberFormat = NumberFormat.getInstance(Locale.getDefault());
 				Number preisNumber = 0;
 				try {
 					preisNumber = numberFormat.parse(mainFrame.getFormattedTextField_Preis().getText());
 				} catch (ParseException e1) {
-					// TODO Auto-generated catch block
-					System.out.println("Exception catched");
+					System.out.println("Exception catched, unable to parse number, no product added");
 					e1.printStackTrace();
+					return;
 				}
 				double preisDouble = preisNumber.doubleValue();
-				receipt.getArtikelliste().addProduct(mainFrame.getTextField_Artikelname().getText(), preisDouble);
-				toAddArtikel = receipt.getArtikelliste().getProductByName(mainFrame.getTextField_Artikelname().getText());
+				
+				produktToAdd = new Produkt(mainFrame.getTextField_Artikelname().getText(), preisDouble, sortiment.getLastId());
+				sortiment.hinzufuegen(produktToAdd);
+				
 			}
-			ReceiptItem toAddReceiptItem = new ReceiptItem(toAddArtikel,
+			KassenbonEintrag toAddReceiptItem = new KassenbonEintrag(produktToAdd,
 					Integer.parseInt(mainFrame.getFormattedTextField_itemCount().getText()));
-			receipt.addReceiptItem(toAddReceiptItem);
+			iBon.addEintrag(toAddReceiptItem);
 			updateGUI();
 		}
 	}

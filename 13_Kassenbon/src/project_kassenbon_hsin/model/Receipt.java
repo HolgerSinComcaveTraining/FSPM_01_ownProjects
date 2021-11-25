@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import project_kassenbon.model.IBon;
-import project_kassenbon.model.sortiment.ISortimentSpeicher;
-import project_kassenbon.model.sortiment.Produkt;
 import project_kassenbon.model.sortiment.Sortiment;
 import project_kassenbon_hsin.model.sortiment.DefaultProducts;
 
@@ -20,11 +18,10 @@ public class Receipt implements IBon<ReceiptItem, String, String> {
 			"╚═════════════════════════╝";
 
 	private ArrayList<ReceiptItem> receiptItemList = new ArrayList<ReceiptItem>();
-//	private Assortment assortment = new Assortment();
 	private Sortiment sortiment = new Sortiment(new DefaultProducts());
-
 	private String verkaeufer = "Herr Max Mustermann";
 
+	
 	public Receipt() {
 
 	}
@@ -56,7 +53,8 @@ public class Receipt implements IBon<ReceiptItem, String, String> {
 	public Sortiment getSortiment() {
 		return sortiment;
 	}
-
+	
+	
 	@Override
 	public String toString() {
 		double summe = 0;
@@ -76,27 +74,27 @@ public class Receipt implements IBon<ReceiptItem, String, String> {
 		return returnString;
 	}
 
-	public boolean addReceiptItem(String name, int anzahl) {
-		for (Produkt produkt : sortiment.getSortiment()) {
-			if (produkt.getBezeichnung().equalsIgnoreCase(name)) {
-				ReceiptItem newItem = new ReceiptItem(produkt, anzahl);
-				return receiptItemList.add(newItem);
-			}
-		}
-		return false;
-	}
-
-	public boolean addReceiptItem(int id, int anzahl) {
-
-		for (Produkt produkt : sortiment.getSortiment()) {
-			if (produkt.getId() == id) {
-				ReceiptItem newItem = new ReceiptItem(produkt, anzahl);
-				return receiptItemList.add(newItem);
-			}
-		}
-		return false;
-
-	}
+//	public boolean addReceiptItem(String name, int anzahl) {
+//		for (Produkt produkt : sortiment.getSortiment()) {
+//			if (produkt.getBezeichnung().equalsIgnoreCase(name)) {
+//				ReceiptItem newItem = new ReceiptItem(produkt, anzahl);
+//				return receiptItemList.add(newItem);
+//			}
+//		}
+//		return false;
+//	}
+//
+//	public boolean addReceiptItem(int id, int anzahl) {
+//
+//		for (Produkt produkt : sortiment.getSortiment()) {
+//			if (produkt.getId() == id) {
+//				ReceiptItem newItem = new ReceiptItem(produkt, anzahl);
+//				return receiptItemList.add(newItem);
+//			}
+//		}
+//		return false;
+//
+//	}
 
 	public void resetReceiptItemList() {
 		receiptItemList = new ArrayList<ReceiptItem>();

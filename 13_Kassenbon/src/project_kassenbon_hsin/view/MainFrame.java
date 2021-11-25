@@ -27,9 +27,8 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.NumberFormatter;
 
-import project_kassenbon.model.Artikel;
-import project_kassenbon_hsin.controller.MainKassenbonProjektController.AddNewItemAction;
-import project_kassenbon_hsin.model.ReceiptItem;
+//import project_kassenbon.model.Artikel;
+//import project_kassenbon_hsin.model.ReceiptItem;
 
 import javax.swing.border.EtchedBorder;
 import java.awt.Color;
@@ -53,10 +52,10 @@ public class MainFrame extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtField_Verkaeufer;
-	private JComboBox<Artikel> comboBox_addItem;
+	private JComboBox<Object> comboBox_addItem;
 	private JFormattedTextField formattedTextField_itemCount;
 //	private final Action action = new SwingAction();
-	private JComboBox<ReceiptItem> comboBox_deleteItem;
+	private JComboBox<Object> comboBox_deleteItem;
 	private JButton btnNewItem;
 	private JTextPane receiptTextPane;
 	private JButton btnSaveBon;
@@ -136,10 +135,10 @@ public class MainFrame extends JFrame {
 		JPanel panel_artikelComboBox = new JPanel();
 		panel_newItem.add(panel_artikelComboBox);
 
-		comboBox_addItem = new JComboBox();
+		comboBox_addItem = new JComboBox<Object>();
 		comboBox_addItem.setFont(new Font("Courier New", Font.PLAIN, 11));
 		comboBox_addItem
-				.setModel(new DefaultComboBoxModel(new String[] { "Test", "test2", "dies ist ein sehr langer Text" }));
+				.setModel(new DefaultComboBoxModel<Object>(new String[] { "Test", "test2", "dies ist ein sehr langer Text" }));
 		comboBox_addItem.setPreferredSize(new Dimension(250, 22));
 		comboBox_addItem.setMinimumSize(new Dimension(100, 22));
 		panel_artikelComboBox.add(comboBox_addItem);
@@ -161,7 +160,6 @@ public class MainFrame extends JFrame {
 			
 			@Override
 			public void focusGained(FocusEvent e) {
-				// TODO Auto-generated method stub
 				textField_Artikelname.selectAll();
 			}
 		});
@@ -249,7 +247,7 @@ public class MainFrame extends JFrame {
 		panel_deleteItem.add(panel_ComboBoxDeleteItem);
 		panel_ComboBoxDeleteItem.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
-		comboBox_deleteItem = new JComboBox();
+		comboBox_deleteItem = new JComboBox<Object>();
 		comboBox_deleteItem.setPreferredSize(new Dimension(250, 22));
 		comboBox_deleteItem.setMinimumSize(new Dimension(100, 22));
 		comboBox_deleteItem.setFont(new Font("Courier New", Font.PLAIN, 11));
@@ -284,7 +282,7 @@ public class MainFrame extends JFrame {
 		return receiptTextPane;
 	}
 
-	public JComboBox<Artikel> getComboBox_addItem() {
+	public JComboBox<Object> getComboBox_addItem() {
 		return comboBox_addItem;
 	}
 
@@ -292,7 +290,7 @@ public class MainFrame extends JFrame {
 		return formattedTextField_itemCount;
 	}
 
-	public JComboBox<ReceiptItem> getComboBox_deleteItem() {
+	public JComboBox<Object> getComboBox_deleteItem() {
 		return comboBox_deleteItem;
 	}
 

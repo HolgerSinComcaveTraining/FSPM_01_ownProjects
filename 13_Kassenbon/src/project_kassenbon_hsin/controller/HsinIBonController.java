@@ -5,21 +5,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
-import javax.swing.plaf.ComboBoxUI;
 
+import project_kassenbon.model.Artikel;
 import project_kassenbon.model.IBon;
 import project_kassenbon.model.sortiment.Produkt;
 import project_kassenbon.model.sortiment.Sortiment;
+//import project_kassenbon.model.sortiment.Produkt;
+//import project_kassenbon.model.sortiment.Sortiment;
 //import project_kassenbon_hsin.model.Product;
 //import project_kassenbon_hsin.model.Assortment;
 import project_kassenbon_hsin.model.Receipt;
@@ -30,8 +30,8 @@ import project_kassenbon_hsin.view.MainFrame;
 public class HsinIBonController {
 
 	private MainFrame mainFrame;
-	private JComboBox addItemComboBox;
-	private JComboBox deleteItemComboBox;
+	private JComboBox<Object> addItemComboBox;
+	private JComboBox<Object> deleteItemComboBox;
 	private IBon<ReceiptItem, String, String> iBon;
 	private Sortiment sortiment;
 	
@@ -63,15 +63,12 @@ public class HsinIBonController {
 		iBon = new Receipt();
 		
 		iBon.addEintrag(new ReceiptItem(sortiment.getProduktByID(9), 15));
-		((Receipt) iBon).addReceiptItem(1, 3);
-		((Receipt) iBon).addReceiptItem(2, 5);
-		((Receipt) iBon).addReceiptItem(3, 6);
-		((Receipt) iBon).addReceiptItem(4, 2);
-
-//		System.out.println(receipt);
+		iBon.addEintrag(new ReceiptItem(sortiment.getProduktByID(1), 3));
+		iBon.addEintrag(new ReceiptItem(sortiment.getProduktByID(2), 5));
+		iBon.addEintrag(new ReceiptItem(sortiment.getProduktByID(3), 6));
+		iBon.addEintrag(new ReceiptItem(sortiment.getProduktByID(4), 2));
 
 		addItemComboBox = mainFrame.getComboBox_addItem();
-
 		deleteItemComboBox = mainFrame.getComboBox_deleteItem();
 
 		updateGUI();
@@ -158,6 +155,17 @@ public class HsinIBonController {
 		mainFrame.getReceiptTextPane().setText(iBon.toString());
 		mainFrame.getFormattedTextField_itemCount().setText("1");
 	}
+	
+	
+	private Produkt getProduktByName(String name) {
+		for (Produkt produkt : sortiment.getSortiment()) {
+			if (produkt.getBezeichnung().equalsIgnoreCase(name)) {
+				return produkt;
+			}
+		}
+		return null;
+		
+	} 
 
 	public class AddNewItemAction extends AbstractAction{
 		public AddNewItemAction() {
@@ -170,7 +178,7 @@ public class HsinIBonController {
 				System.out.println("Artikelbezeichnung darf nicht leer sein");
 				return;
 			}
-			Produkt produktToAdd = sortiment.getProduktByName(mainFrame.getTextField_Artikelname().getText());
+			Produkt produktToAdd = getProduktByName(mainFrame.getTextField_Artikelname().getText());
 			if (produktToAdd == null) {
 				NumberFormat numberFormat = NumberFormat.getInstance(Locale.getDefault());
 				Number preisNumber = 0;
@@ -183,8 +191,8 @@ public class HsinIBonController {
 				}
 				double preisDouble = preisNumber.doubleValue();
 				
-				
-				produktToAdd = sortiment.addProdukt(mainFrame.getTextField_Artikelname().getText(), preisDouble);
+				produktToAdd = new Produkt(mainFrame.getTextField_Artikelname().getText(), preisDouble, sortiment.getLastId());
+				sortiment.hinzufuegen(produktToAdd);
 				
 			}
 			ReceiptItem toAddReceiptItem = new ReceiptItem(produktToAdd,

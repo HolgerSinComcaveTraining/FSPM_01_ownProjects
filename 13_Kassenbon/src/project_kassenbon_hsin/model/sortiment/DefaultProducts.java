@@ -5,9 +5,12 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 
-import project_kassenbon.model.Artikel;
 import project_kassenbon.model.sortiment.ISortimentSpeicher;
 import project_kassenbon.model.sortiment.Produkt;
+
+//import project_kassenbon.model.Artikel;
+//import project_kassenbon_hsin.model.sortiment.ISortimentSpeicher;
+//import project_kassenbon_hsin.model.sortiment.Produkt;
 
 public class DefaultProducts implements ISortimentSpeicher {
 	
@@ -61,16 +64,7 @@ public class DefaultProducts implements ISortimentSpeicher {
 	
 	@Override
 	public Produkt[] getSortiment() {
-		System.out.println(produktListe);
-		System.out.println((Produkt) produktListe.toArray()[0]);
-		Object[] myObjects = produktListe.toArray();
-		Produkt[] myProduktArray = new Produkt[myObjects.length];
-		for (int i = 0; i < myProduktArray.length; i++) {
-			myProduktArray[i] = (Produkt) myObjects[i];
-		}
-		return myProduktArray;
-//		return (Produkt[]) produktSet.toArray();
-		
+		return produktListe.toArray(new Produkt[0]);
 	}
 
 	@Override
@@ -101,6 +95,17 @@ public class DefaultProducts implements ISortimentSpeicher {
 	public void produktEntfernen(Produkt produkt) {
 		produktListe.remove(produkt);
 
+	}
+
+	@Override
+	public int getLastId() {
+		int lastId = 0;
+		for (Produkt produkt : produktListe) {
+			if(lastId < produkt.getId()) {
+				lastId = produkt.getId();
+			}
+		}
+		return lastId + 1;
 	}
 
 }
