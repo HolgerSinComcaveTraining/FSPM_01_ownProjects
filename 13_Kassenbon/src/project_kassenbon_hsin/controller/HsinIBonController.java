@@ -25,6 +25,7 @@ import project_kassenbon.model.sortiment.Sortiment;
 import project_kassenbon_hsin.model.Receipt;
 import project_kassenbon_hsin.model.ReceiptItem;
 import project_kassenbon_hsin.model.sortiment.DefaultProducts;
+import project_kassenbon_hsin.model.sortiment.FileSaver;
 import project_kassenbon_hsin.view.MainFrame;
 
 public class HsinIBonController {
@@ -56,8 +57,9 @@ public class HsinIBonController {
 
 	public void init() {
 		
-		DefaultProducts dp = new DefaultProducts();
-		sortiment = new Sortiment(dp);
+		//DefaultProducts dp = new DefaultProducts();
+		FileSaver fs = new FileSaver();
+		sortiment = new Sortiment(fs);
 		
 		
 		iBon = new Receipt();
