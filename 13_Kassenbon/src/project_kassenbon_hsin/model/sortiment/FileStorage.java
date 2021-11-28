@@ -6,37 +6,33 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Scanner;
-
 import project_kassenbon.model.sortiment.ISortimentSpeicher;
 import project_kassenbon.model.sortiment.Produkt;
 
-//import project_kassenbon.model.Artikel;
-//import project_kassenbon_hsin.model.sortiment.ISortimentSpeicher;
-//import project_kassenbon_hsin.model.sortiment.Produkt;
 
-public class FileSaver implements ISortimentSpeicher {
+public class FileStorage implements ISortimentSpeicher {
 
 //	private ArrayList<Produkt> produktListe = new ArrayList<Produkt>();
 //	private HashSet<Produkt> produktSet = new HashSet<Produkt>();
-	private File file = new File("..\\FileSaverStandardFile.csv");
+	private File file;
 
 	/**
 	 * 
 	 */
-	public FileSaver() {
-//		produktListe.add(new Produkt("15 Fischstäbchen", 1.79, getNextID()));
-//		produktListe.add(new Produkt("Steaks", 3.99, getNextID()));
-//		produktListe.add(new Produkt("Naturell (1l)", 4.99, getNextID()));
-//		produktListe.add(new Produkt("Magnum Eiscreme", 2.99, getNextID()));
-//		produktListe.add(new Produkt("Banane", 1.99, 123));
-//		produktListe.add(new Produkt("Kaffee", 4.99, 456));
-//		produktListe.add(new Produkt("Milch", 0.69, getNextID()));
-//		for (int i = 1; i <= 10; i++) {
-//			produktListe.add(new Produkt("Random Artikel " + i, 10.99 + i, getNextID()));
-//		}
+	public FileStorage(String fileLocation) {
+		file = new File(fileLocation);
+		try {
+			file.createNewFile();
+		} catch (IOException e) {
+			System.out.println("Exception catched while creating file in Constructor:");
+			e.printStackTrace();
+		}
+	}
+	
+	public FileStorage() {
+		this(".\\FileSaverStandardFile.csv");
 	}
 
 	public int getNextID() {
@@ -68,14 +64,14 @@ public class FileSaver implements ISortimentSpeicher {
 			Scanner fileScanner = new Scanner(file);
 
 			while (fileScanner.hasNext()) {
-				produktAsStringArray = fileScanner.nextLine().split(",");
+				produktAsStringArray = fileScanner.nextLine().split("[,;]");
 				tmpProduktList.add(new Produkt(produktAsStringArray[1], Double.parseDouble(produktAsStringArray[2]), Integer.parseInt(produktAsStringArray[0])));
 			}
 
 			fileScanner.close();
 
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+			System.out.println("Exception catched while reading file in getSortiment:");
 			e.printStackTrace();
 		}
 		return tmpProduktList.toArray(new Produkt[0]);
@@ -88,7 +84,7 @@ public class FileSaver implements ISortimentSpeicher {
 		try {
 			FileWriter fw = new FileWriter(file, false);
 			for (Produkt produkt : produktArray) {
-				fw.write(produkt.getId() + "," + produkt.getBezeichnung() + "," + produkt.getPreis()
+				fw.write(produkt.getId() + ";" + produkt.getBezeichnung() + ";" + produkt.getPreis()
 						+ System.lineSeparator());
 //				System.out.println(produkt);
 			}
