@@ -19,11 +19,11 @@ public class App {
 
 	public static void main(String[] args) {
 
-		DB_Storage dbs = new DB_Storage();
-		Sortiment sortiment = new Sortiment(dbs);
-		
-		Produkt produkt = sortiment.getProduktByID(10);
-		dbs.produktEntfernen(produkt);
+//		DB_Storage dbs = new DB_Storage();
+//		Sortiment sortiment = new Sortiment(dbs);
+//		
+//		Produkt produkt = (new Produkt("Neue ID 11", 1.79, 11));
+//		dbs.produktAktualisieren(produkt);
 	
 //		dbs.truncateSortiment();
 //		dbs.produktHinzufuegen(new Produkt("15 Fischstäbchen", 1.79, 1));
@@ -39,7 +39,7 @@ public class App {
 //		}
 //		System.out.println(Arrays.toString(dbs.getSortiment()));
 
-//		HsinIBonController hic = new HsinIBonController();
+		HsinIBonController hic = new HsinIBonController();
 //		SchirmerIBonController sic = new SchirmerIBonController();
 //		SchirmerIBonController_V2 sic2 = new SchirmerIBonController_V2();
 
