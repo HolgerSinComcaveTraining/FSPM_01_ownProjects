@@ -58,10 +58,10 @@ public class HsinIBonController {
 
 	public void init() {
 		
-		//DefaultProducts dp = new DefaultProducts();
-//		FileStorage fs = new FileStorage();
-		DB_Storage dbs = new DB_Storage();
-		sortiment = new Sortiment(dbs);
+		//DefaultProducts myStorage = new DefaultProducts();
+		FileStorage myStorage = new FileStorage();
+//		DB_Storage myStorage = new DB_Storage();
+		sortiment = new Sortiment(myStorage);
 		
 		
 		iBon = new Receipt();

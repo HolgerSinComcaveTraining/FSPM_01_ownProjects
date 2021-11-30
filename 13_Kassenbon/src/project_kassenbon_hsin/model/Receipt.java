@@ -1,5 +1,7 @@
 package project_kassenbon_hsin.model;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -70,31 +72,14 @@ public class Receipt implements IBon<ReceiptItem, String, String> {
 		returnString += String.format("%26s%n", "=======");
 		returnString += System.lineSeparator();
 		returnString += "Es bediente Sie: \n" + verkaeufer;
-
+		returnString += System.lineSeparator();
+		returnString += System.lineSeparator();
+		DateTimeFormatter dtFormatter = DateTimeFormatter.ofPattern("'Vielen Dank für Ihren Einkauf! \nam: 'dd.MM.yyyy ' um: 'HH:mm");
+		returnString += LocalDateTime.now().format(dtFormatter);
 		return returnString;
 	}
 
-//	public boolean addReceiptItem(String name, int anzahl) {
-//		for (Produkt produkt : sortiment.getSortiment()) {
-//			if (produkt.getBezeichnung().equalsIgnoreCase(name)) {
-//				ReceiptItem newItem = new ReceiptItem(produkt, anzahl);
-//				return receiptItemList.add(newItem);
-//			}
-//		}
-//		return false;
-//	}
-//
-//	public boolean addReceiptItem(int id, int anzahl) {
-//
-//		for (Produkt produkt : sortiment.getSortiment()) {
-//			if (produkt.getId() == id) {
-//				ReceiptItem newItem = new ReceiptItem(produkt, anzahl);
-//				return receiptItemList.add(newItem);
-//			}
-//		}
-//		return false;
-//
-//	}
+	
 
 	public void resetReceiptItemList() {
 		receiptItemList = new ArrayList<ReceiptItem>();
