@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+
 import project_kassenbon.model.sortiment.ISortimentSpeicher;
 import project_kassenbon.model.sortiment.Produkt;
 
@@ -121,16 +122,6 @@ public class DB_Storage implements ISortimentSpeicher {
 
 	@Override
 	public void produktAktualisieren(Produkt produkt) {
-//		ArrayList<Produkt> tmpProduktList = new ArrayList<Produkt>(Arrays.asList(getSortiment()));
-//		int index = -1;
-//		for (Produkt produkt : tmpProduktList) {
-//			if (produkt.getId() == produktParam.getId()) {
-//				index = tmpProduktList.indexOf(produkt);
-//				tmpProduktList.remove(produkt);
-//				tmpProduktList.add(index, produktParam);
-//			}
-//		}
-//		sortimentSpeichern(tmpProduktList.toArray(new Produkt[0]));
 		String sql = 
 				"UPDATE sortiment "
 				+ "SET bezeichnung = ?,"
@@ -169,14 +160,34 @@ public class DB_Storage implements ISortimentSpeicher {
 
 	@Override
 	public int getLastId() {
-		ArrayList<Produkt> tmpProduktList = new ArrayList<Produkt>(Arrays.asList(getSortiment()));
+		ResultSet resultSet;
 		int lastId = 0;
-		for (Produkt produkt : tmpProduktList) {
-			if (lastId < produkt.getId()) {
-				lastId = produkt.getId();
+		String sql = "SELECT MAX(id) FROM sortiment";
+		try {
+			PreparedStatement statement = db_conn.prepareStatement(sql);
+			resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				System.out.println(resultSet);
+				lastId = resultSet.getInt(1);
 			}
+			System.out.println("lastId " + lastId);
+		} catch (SQLException e) {
+			System.out.println("Exception catched during sql query - getLastId");
+			e.printStackTrace();
 		}
 		return lastId + 1;
 	}
+
+//	@Override
+//	public int getLastId() {
+//		ArrayList<Produkt> tmpProduktList = new ArrayList<Produkt>(Arrays.asList(getSortiment()));
+//		int lastId = 0;
+//		for (Produkt produkt : tmpProduktList) {
+//			if (lastId < produkt.getId()) {
+//				lastId = produkt.getId();
+//			}
+//		}
+//		return lastId + 1;
+//	}
 
 }

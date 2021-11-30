@@ -63,6 +63,7 @@ public class MainFrame extends JFrame {
 	private JTextField textField_Artikelname;
 	private JButton btnDeleteItem;
 	private JFormattedTextField formattedTextField_Preis;
+	private JButton btnDeleteProdukt;
 
 
 
@@ -83,7 +84,7 @@ public class MainFrame extends JFrame {
 
 		JPanel panel_left = new JPanel();
 		splitPane.setLeftComponent(panel_left);
-		panel_left.setLayout(new GridLayout(0, 1, 0, 0));
+		panel_left.setLayout(new BoxLayout(panel_left, BoxLayout.Y_AXIS));
 
 		JPanel panel_receipt = new JPanel();
 		panel_receipt.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -91,9 +92,13 @@ public class MainFrame extends JFrame {
 		panel_receipt.setLayout(new BoxLayout(panel_receipt, BoxLayout.Y_AXIS));
 
 		btnNewBon = new JButton("Neuer Kassenbon");
+		btnNewBon.setMaximumSize(new Dimension(150, 23));
+		btnNewBon.setAlignmentX(Component.CENTER_ALIGNMENT);
 		panel_receipt.add(btnNewBon);
 
 		btnSaveBon = new JButton("Verk\u00E4ufer speichern");
+		btnSaveBon.setMaximumSize(new Dimension(150, 23));
+		btnSaveBon.setAlignmentX(Component.CENTER_ALIGNMENT);
 		panel_receipt.add(btnSaveBon);
 
 		JPanel panel__verkaeufer = new JPanel();
@@ -119,18 +124,13 @@ public class MainFrame extends JFrame {
 
 		JPanel panel_newItem = new JPanel();
 		panel_newItem
-				.setBorder(new CompoundBorder(new EmptyBorder(10, 10, 10, 10),
-						new TitledBorder(
-								new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255),
-										new Color(160, 160, 160)),
-								"Kassenbon Eintrag hinzuf\u00FCgen", TitledBorder.LEADING, TitledBorder.TOP, null,
-								new Color(0, 0, 0))));
+				.setBorder(new CompoundBorder(new EmptyBorder(10, 10, 10, 10), new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Kassenbon/Sortiment Eintrag hinzuf\u00FCgen/entfernen", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0))));
 		panel_receiptItem.add(panel_newItem);
 		panel_newItem.setLayout(new BoxLayout(panel_newItem, BoxLayout.Y_AXIS));
-
-		btnNewItem = new JButton("Eintrag hinzuf\u00FCgen");
-		btnNewItem.setAlignmentX(Component.CENTER_ALIGNMENT);
-		panel_newItem.add(btnNewItem);
+		
+		btnDeleteProdukt = new JButton("Produkt l\u00F6schen");
+		btnDeleteProdukt.setAlignmentX(Component.CENTER_ALIGNMENT);
+		panel_newItem.add(btnDeleteProdukt);
 
 		JPanel panel_artikelComboBox = new JPanel();
 		panel_newItem.add(panel_artikelComboBox);
@@ -234,6 +234,10 @@ public class MainFrame extends JFrame {
 			}
 		});
 		panel_itemCount.add(formattedTextField_itemCount);
+		
+				btnNewItem = new JButton("Eintrag hinzuf\u00FCgen");
+				btnNewItem.setAlignmentX(Component.CENTER_ALIGNMENT);
+				panel_newItem.add(btnNewItem);
 
 		JPanel panel_deleteItem = new JPanel();
 		panel_deleteItem.setBorder(new CompoundBorder(new EmptyBorder(10, 10, 10, 10),
@@ -321,6 +325,14 @@ public class MainFrame extends JFrame {
 	public JFormattedTextField getFormattedTextField_Preis() {
 		return formattedTextField_Preis;
 	}
+	
+	
+
+	public JButton getBtnDeleteProdukt() {
+		return btnDeleteProdukt;
+	}
+
+
 
 	// aktuell nicht genutzt
 	private class SwingAction extends AbstractAction {

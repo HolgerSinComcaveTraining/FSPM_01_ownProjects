@@ -21,7 +21,9 @@ public class App {
 
 //		DB_Storage dbs = new DB_Storage();
 //		Sortiment sortiment = new Sortiment(dbs);
-//		
+//		sortiment.getLastId();
+		
+		
 //		Produkt produkt = (new Produkt("Neue ID 11", 1.79, 11));
 //		dbs.produktAktualisieren(produkt);
 	

@@ -104,6 +104,18 @@ public class HsinIBonController {
 		});
 		
 		
+		mainFrame.getBtnDeleteProdukt().addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				Produkt toDeleteProdukt = (Produkt) addItemComboBox.getSelectedItem();
+				sortiment.entfernen(toDeleteProdukt);
+				updateGUI();
+			}
+		});
+		
+		
 
 		mainFrame.getBtnDeleteItem().addActionListener(new ActionListener() {
 
