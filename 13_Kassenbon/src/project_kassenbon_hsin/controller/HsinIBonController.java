@@ -58,7 +58,7 @@ public class HsinIBonController {
 
 	public void init() {
 		
-		//DefaultProducts myStorage = new DefaultProducts();
+//		DefaultProducts myStorage = new DefaultProducts();
 		FileStorage myStorage = new FileStorage();
 //		DB_Storage myStorage = new DB_Storage();
 		sortiment = new Sortiment(myStorage);
@@ -108,7 +108,6 @@ public class HsinIBonController {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				Produkt toDeleteProdukt = (Produkt) addItemComboBox.getSelectedItem();
 				sortiment.entfernen(toDeleteProdukt);
 				updateGUI();

@@ -119,9 +119,15 @@ public class FileStorage implements ISortimentSpeicher {
 	}
 
 	@Override
-	public void produktEntfernen(Produkt produkt) {
+	public void produktEntfernen(Produkt produktParam) {
 		ArrayList<Produkt> tmpProduktList = new ArrayList<Produkt>(Arrays.asList(getSortiment()));
-		tmpProduktList.remove(produkt);
+		int index = -1;
+		for (Produkt produkt : tmpProduktList) {
+			if (produkt.getId() == produktParam.getId()) {
+				index = tmpProduktList.indexOf(produkt);
+			}
+		}
+		System.out.println(tmpProduktList.remove(index) != null ? "Produkt aus Sortiment enfernt: " + produktParam : "Fehler: Produkt nicht entfernt");
 		sortimentSpeichern(tmpProduktList.toArray(new Produkt[0]));
 	}
 
