@@ -64,6 +64,7 @@ public class MainFrame extends JFrame {
 	private JButton btnDeleteItem;
 	private JFormattedTextField formattedTextField_Preis;
 	private JButton btnDeleteProdukt;
+	private JFormattedTextField formattedTextField_id;
 
 
 
@@ -71,7 +72,7 @@ public class MainFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public MainFrame() {
-		setTitle("Kassenbon Projekt");
+		setTitle("Kassenbon Projekt - Holgers GUI");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 682, 576);
 		contentPane = new JPanel();
@@ -145,6 +146,20 @@ public class MainFrame extends JFrame {
 
 		JPanel panel_artikelTextFields = new JPanel();
 		panel_newItem.add(panel_artikelTextFields);
+		
+// eigener Number Formatter 		
+		NumberFormat format = NumberFormat.getInstance();
+		NumberFormatter integerFormatter = new MyNumberFormatter(format);
+		integerFormatter.setValueClass(Integer.class);
+		integerFormatter.setMinimum(1);
+		integerFormatter.setMaximum(10000);
+		integerFormatter.setAllowsInvalid(false);
+		// If you want the value to be committed on each keystroke instead of focus lost
+		integerFormatter.setCommitsOnValidEdit(true);
+// Ende eigener Formatter	   
+		formattedTextField_id = new JFormattedTextField(integerFormatter);
+		formattedTextField_id.setColumns(3);
+		panel_artikelTextFields.add(formattedTextField_id);
 
 		textField_Artikelname = new JTextField();
 		textField_Artikelname.setToolTipText("Artikelbezeichnung");
@@ -167,7 +182,7 @@ public class MainFrame extends JFrame {
 		
 
 // eigener Number Formatter double		
-		NumberFormat format = DecimalFormat.getInstance();
+		format = DecimalFormat.getInstance();
 		format.setMinimumFractionDigits(2);
 		format.setMaximumFractionDigits(2);
 		format.setRoundingMode(RoundingMode.HALF_UP);
@@ -204,7 +219,7 @@ public class MainFrame extends JFrame {
 
 // eigener Number Formatter 		
 		format = NumberFormat.getInstance();
-		NumberFormatter integerFormatter = new MyNumberFormatter(format);
+		integerFormatter = new MyNumberFormatter(format);
 		integerFormatter.setValueClass(Integer.class);
 		integerFormatter.setMinimum(1);
 		integerFormatter.setMaximum(1000);
@@ -330,6 +345,12 @@ public class MainFrame extends JFrame {
 
 	public JButton getBtnDeleteProdukt() {
 		return btnDeleteProdukt;
+	}
+
+
+
+	public JFormattedTextField getFormattedTextField_id() {
+		return formattedTextField_id;
 	}
 
 

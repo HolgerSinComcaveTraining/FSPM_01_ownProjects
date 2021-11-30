@@ -66,7 +66,6 @@ public class HsinIBonController {
 		
 		iBon = new Receipt();
 		
-		iBon.addEintrag(new ReceiptItem(sortiment.getProduktByID(9), 15));
 		iBon.addEintrag(new ReceiptItem(sortiment.getProduktByID(1), 3));
 		iBon.addEintrag(new ReceiptItem(sortiment.getProduktByID(2), 5));
 		iBon.addEintrag(new ReceiptItem(sortiment.getProduktByID(3), 6));
@@ -103,6 +102,24 @@ public class HsinIBonController {
 			}
 		});
 		
+		mainFrame.getFormattedTextField_id().addKeyListener(new KeyAdapter() {
+			public void keyPressed (KeyEvent e) {
+				if ((e.getKeyCode() == 10)) {
+					Produkt produkt = sortiment.getProduktByID(Integer.parseInt(mainFrame.getFormattedTextField_id().getText()));
+					System.out.println(produkt);
+					if (produkt != null) {
+						mainFrame.getTextField_Artikelname().setText(produkt.getBezeichnung());
+						mainFrame.getFormattedTextField_Preis().setValue((produkt.getPreis()));
+					}
+					mainFrame.getTextField_Artikelname().requestFocusInWindow();
+				}
+			}
+		});
+		
+		
+		
+		
+		// Action Listener
 		
 		mainFrame.getBtnDeleteProdukt().addActionListener(new ActionListener() {
 			
@@ -152,8 +169,12 @@ public class HsinIBonController {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
+				
 				mainFrame.getTextField_Artikelname().setText(((Produkt) addItemComboBox.getSelectedItem()).getBezeichnung());
 				mainFrame.getFormattedTextField_Preis().setValue((((Produkt) addItemComboBox.getSelectedItem()).getPreis()));
+				mainFrame.getFormattedTextField_id().setValue(((Produkt) addItemComboBox.getSelectedItem()).getId());
+				
 				//updateGUI();
 				
 			}
@@ -205,7 +226,7 @@ public class HsinIBonController {
 					return;
 				}
 				double preisDouble = preisNumber.doubleValue();
-				
+				//TODO: ID Textfeld berücksichtigen 
 				produktToAdd = new Produkt(mainFrame.getTextField_Artikelname().getText(), preisDouble, sortiment.getLastId());
 				sortiment.hinzufuegen(produktToAdd);
 				
