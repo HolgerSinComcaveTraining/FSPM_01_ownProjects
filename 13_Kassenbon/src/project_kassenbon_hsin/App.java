@@ -19,6 +19,9 @@ public class App {
 
 	public static void main(String[] args) {
 
+		
+		
+		
 //		DB_Storage dbs = new DB_Storage();
 //		Sortiment sortiment = new Sortiment(dbs);
 //		sortiment.getLastId();

@@ -12,6 +12,10 @@ public class MyNumberFormatter extends NumberFormatter {
 		super(format);
 	}
 
+	public MyNumberFormatter() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public Object stringToValue(String text) throws ParseException {
 		if (text.equals("")) {
 			return null;

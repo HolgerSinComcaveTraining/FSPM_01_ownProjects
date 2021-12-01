@@ -149,16 +149,28 @@ public class MainFrame extends JFrame {
 		
 // eigener Number Formatter 		
 		NumberFormat format = NumberFormat.getInstance();
+		format.setGroupingUsed(false);
 		NumberFormatter integerFormatter = new MyNumberFormatter(format);
 		integerFormatter.setValueClass(Integer.class);
 		integerFormatter.setMinimum(1);
 		integerFormatter.setMaximum(10000);
 		integerFormatter.setAllowsInvalid(false);
+//		integerFormatter.set
 		// If you want the value to be committed on each keystroke instead of focus lost
 		integerFormatter.setCommitsOnValidEdit(true);
 // Ende eigener Formatter	   
 		formattedTextField_id = new JFormattedTextField(integerFormatter);
 		formattedTextField_id.setColumns(3);
+		formattedTextField_id.addFocusListener(new FocusAdapter() {
+			public void focusGained(FocusEvent e) {
+				SwingUtilities.invokeLater(new Runnable() {
+		            @Override
+		            public void run() {
+		            	formattedTextField_id.selectAll();
+		            }
+				});
+			}
+		});
 		panel_artikelTextFields.add(formattedTextField_id);
 
 		textField_Artikelname = new JTextField();
@@ -221,7 +233,7 @@ public class MainFrame extends JFrame {
 		format = NumberFormat.getInstance();
 		integerFormatter = new MyNumberFormatter(format);
 		integerFormatter.setValueClass(Integer.class);
-		integerFormatter.setMinimum(1);
+		integerFormatter.setMinimum(0);
 		integerFormatter.setMaximum(1000);
 		integerFormatter.setAllowsInvalid(false);
 		// If you want the value to be committed on each keystroke instead of focus lost
@@ -287,6 +299,8 @@ public class MainFrame extends JFrame {
 		receiptTextPane.setFont(new Font("Courier New", Font.PLAIN, 11));
 
 		splitPane.setRightComponent(scrollPane);
+		
+		
 	}
 
 	public JPanel getContentPane() {
