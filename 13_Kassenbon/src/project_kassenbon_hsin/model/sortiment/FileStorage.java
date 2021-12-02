@@ -64,7 +64,7 @@ public class FileStorage implements ISortimentSpeicher {
 			Scanner fileScanner = new Scanner(file);
 
 			while (fileScanner.hasNext()) {
-				produktAsStringArray = fileScanner.nextLine().split("[,;]");
+				produktAsStringArray = fileScanner.nextLine().split("[;]");
 				tmpProduktList.add(new Produkt(produktAsStringArray[1], Double.parseDouble(produktAsStringArray[2]), Integer.parseInt(produktAsStringArray[0])));
 			}
 
@@ -107,10 +107,11 @@ public class FileStorage implements ISortimentSpeicher {
 	public void produktAktualisieren(Produkt produktParam) {
 		ArrayList<Produkt> tmpProduktList = new ArrayList<Produkt>(Arrays.asList(getSortiment()));
 		int index = -1;
-		for (Produkt produkt : tmpProduktList) {
+		for (Produkt produkt : tmpProduktList.toArray(new Produkt[0])) {
 			if (produkt.getId() == produktParam.getId()) {
 				index = tmpProduktList.indexOf(produkt);
 				tmpProduktList.remove(produkt);
+//				System.out.println(index);
 				tmpProduktList.add(index, produktParam);
 			}
 		}

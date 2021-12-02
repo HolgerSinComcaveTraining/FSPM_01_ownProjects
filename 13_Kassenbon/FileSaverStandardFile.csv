@@ -2,8 +2,7 @@
 2;Steaks;3.99
 3;Naturell (1l);4.99
 4;Magnum Eiscreme;2.99
-123;Banane;1.99
-456;Kaffee;4.99
+456;Kaffee, fair;4.99
 5;Milch;0.69
 6;Random Artikel 1;11.99
 7;Random Artikel 2;12.99
@@ -23,3 +22,6 @@
 459;Produkt 459;954.32
 460;Produkt 460;64.32
 461;Produkt 461;164.32
+21;Produkt 21;12.34
+22;Produkt 22;22.0
+123;Banane Bio;1.99

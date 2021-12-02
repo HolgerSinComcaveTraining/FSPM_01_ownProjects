@@ -160,6 +160,7 @@ public class MainFrame extends JFrame {
 		integerFormatter.setCommitsOnValidEdit(true);
 // Ende eigener Formatter	   
 		formattedTextField_id = new JFormattedTextField(integerFormatter);
+//		formattedTextField_id.setBorder(new TitledBorder(null, "ID", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		formattedTextField_id.setColumns(3);
 		formattedTextField_id.addFocusListener(new FocusAdapter() {
 			public void focusGained(FocusEvent e) {
@@ -174,6 +175,8 @@ public class MainFrame extends JFrame {
 		panel_artikelTextFields.add(formattedTextField_id);
 
 		textField_Artikelname = new JTextField();
+//		textField_Artikelname.setBorder(new TitledBorder(null, "Bezeichnung", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+//		((javax.swing.border.TitledBorder) textField_Artikelname.getBorder()).setTitleFont(new Font("Tahoma", Font.PLAIN, 6));
 		textField_Artikelname.setToolTipText("Artikelbezeichnung");
 		panel_artikelTextFields.add(textField_Artikelname);
 		textField_Artikelname.setColumns(20);
@@ -208,6 +211,7 @@ public class MainFrame extends JFrame {
 // Ende eigener Formatter	    
 
 		formattedTextField_Preis = new JFormattedTextField(doubleFormatter);
+//		formattedTextField_Preis.setBorder(new TitledBorder(null, "Preis", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		formattedTextField_Preis.setColumns(5);
 		formattedTextField_Preis.addFocusListener(new FocusAdapter() {
 			@Override

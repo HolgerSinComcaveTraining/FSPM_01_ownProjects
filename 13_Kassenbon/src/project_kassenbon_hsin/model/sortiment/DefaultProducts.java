@@ -82,10 +82,11 @@ public class DefaultProducts implements ISortimentSpeicher {
 	@Override
 	public void produktAktualisieren(Produkt produktParam) {
 		int index = -1;
-		for (Produkt produkt : produktListe) {
+		for (Produkt produkt : getSortiment()) {
 			if (produkt.getId() == produktParam.getId()) {
+				index = produktListe.indexOf(produkt);
 				produktListe.remove(produkt);
-				produktListe.add(produktParam);
+				produktListe.add(index, produktParam);
 			}
 		}
 

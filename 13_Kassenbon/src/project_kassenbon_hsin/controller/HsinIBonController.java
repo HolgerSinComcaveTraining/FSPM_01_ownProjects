@@ -30,7 +30,6 @@ import project_kassenbon_hsin.model.sortiment.DefaultProducts;
 import project_kassenbon_hsin.model.sortiment.FileStorage;
 import project_kassenbon_hsin.view.MainFrame;
 
-
 public class HsinIBonController {
 
 	private MainFrame mainFrame;
@@ -111,51 +110,35 @@ public class HsinIBonController {
 		mainFrame.getFormattedTextField_id().addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
 //				if ((e.getKeyCode() == e.VK_ENTER)) {
-					if (mainFrame.getFormattedTextField_id().getText().equals("")) {
+				if (mainFrame.getFormattedTextField_id().getText().equals("")) {
+					mainFrame.getFormattedTextField_Preis().setValue(0);
+					if ((e.getKeyCode() == e.VK_ENTER)) {
+						mainFrame.getFormattedTextField_id().setValue(sortiment.getLastId());
+						mainFrame.getTextField_Artikelname().setText("Bitte Produktname und Preis eingeben");
+						mainFrame.getTextField_Artikelname().requestFocusInWindow();
+					} else {
+						mainFrame.getTextField_Artikelname().setText("");
+					}
+
+				} else { // ID feld nicht leer
+					Produkt produkt = sortiment.getProduktByID(Integer.parseInt(mainFrame.getFormattedTextField_id().getText()));
+//					System.out.println(produkt);
+					if (produkt != null) {
+						mainFrame.getTextField_Artikelname().setText(produkt.getBezeichnung());
+						mainFrame.getFormattedTextField_Preis().setValue((produkt.getPreis()));
+						if ((e.getKeyCode() == e.VK_ENTER)) {
+							mainFrame.getFormattedTextField_itemCount().requestFocusInWindow();
+						}
+
+					} else {
+						mainFrame.getTextField_Artikelname().setText("Bitte Produktname und Preis eingeben");
 						mainFrame.getFormattedTextField_Preis().setValue(0);
 						if ((e.getKeyCode() == e.VK_ENTER)) {
-							mainFrame.getFormattedTextField_id().setValue(sortiment.getLastId());
-							mainFrame.getTextField_Artikelname().setText("Bitte Produktname und Preis eingeben");
 							mainFrame.getTextField_Artikelname().requestFocusInWindow();
-						} else {
-							mainFrame.getTextField_Artikelname().setText("");
 						}
-						
-						
-					} else { // ID feld nicht leer
-						Produkt produkt = sortiment.getProduktByID(Integer.parseInt(mainFrame.getFormattedTextField_id().getText()));
-						System.out.println(produkt);
-						if (produkt != null) {
-							mainFrame.getTextField_Artikelname().setText(produkt.getBezeichnung());
-							mainFrame.getFormattedTextField_Preis().setValue((produkt.getPreis()));
-						} else {
-							mainFrame.getTextField_Artikelname().setText("");
-							mainFrame.getFormattedTextField_Preis().setValue(0);
-						}
-						if ((e.getKeyCode() == e.VK_ENTER)) {
-							mainFrame.getTextField_Artikelname().requestFocusInWindow();
-//							System.out.println(e.getKeyCode());
-						}
-					}
-//				} else { // andere Taste als Enter gedrückt
-//					
-//					if (mainFrame.getFormattedTextField_id().getText().equals("")) {
-//
-//					} else {
-//						Produkt produkt = sortiment.getProduktByID(Integer.parseInt(mainFrame.getFormattedTextField_id().getText()));
-//						System.out.println(produkt);
-//						if (produkt != null) {
-//							mainFrame.getTextField_Artikelname().setText(produkt.getBezeichnung());
-//							mainFrame.getFormattedTextField_Preis().setValue((produkt.getPreis()));
-//						} else {
-//							mainFrame.getTextField_Artikelname().setText("");
-//							mainFrame.getFormattedTextField_Preis().setValue(0);
-//
-//						}
-//
-//					}
 
-//				}
+					}
+				}
 			}
 		});
 
@@ -251,29 +234,34 @@ public class HsinIBonController {
 				return;
 			}
 //			Produkt produktToAdd = getProduktByName(mainFrame.getTextField_Artikelname().getText());
-			int newID = Integer.parseInt(mainFrame.getFormattedTextField_id().getText());
-			Produkt produktToAdd =  sortiment.getProduktByID(newID);
-			if (produktToAdd == null) {
-				NumberFormat numberFormat = NumberFormat.getInstance(Locale.getDefault());
-				Number preisNumber = 0;
-				try {
-					preisNumber = numberFormat.parse(mainFrame.getFormattedTextField_Preis().getText());
-				} catch (ParseException e1) {
-					System.out.println("Exception catched, unable to parse number, no product added");
-					e1.printStackTrace();
-					return;
+			int produktID = Integer.parseInt(mainFrame.getFormattedTextField_id().getText());
+			Produkt produkt = sortiment.getProduktByID(produktID);
+			
+			NumberFormat numberFormat = NumberFormat.getInstance(Locale.getDefault());
+			Number preisNumber = 0;
+			try {
+				preisNumber = numberFormat.parse(mainFrame.getFormattedTextField_Preis().getText());
+			} catch (ParseException e1) {
+				System.out.println("Exception catched, unable to parse number, no product added");
+				e1.printStackTrace();
+				return;
+			}
+			double preisDouble = preisNumber.doubleValue();
+			
+			if (produkt == null) {
+				produkt = new Produkt(mainFrame.getTextField_Artikelname().getText(), preisDouble, produktID);
+				sortiment.hinzufuegen(produkt);
+			} else {	// Produkt schon vorhanden
+				if (! produkt.getBezeichnung().equalsIgnoreCase(mainFrame.getTextField_Artikelname().getText()) || produkt.getPreis() != preisDouble) {
+					Produkt changedProdukt = new Produkt(mainFrame.getTextField_Artikelname().getText(), preisDouble, produktID);
+					sortiment.getSpeicher().produktAktualisieren(changedProdukt);
+					sortiment.neuladen();
+					produkt = changedProdukt;
 				}
-				double preisDouble = preisNumber.doubleValue();
-				
-				newID = sortiment.getLastId();
-				
-				produktToAdd = new Produkt(mainFrame.getTextField_Artikelname().getText(), preisDouble, newID);
-				sortiment.hinzufuegen(produktToAdd);
-
 			}
 			int itemCount;
 			if (mainFrame.getFormattedTextField_itemCount().getText().equals("")) {
-				itemCount=0;
+				itemCount = 0;
 			} else {
 				itemCount = Integer.parseInt(mainFrame.getFormattedTextField_itemCount().getText());
 			}
@@ -281,7 +269,7 @@ public class HsinIBonController {
 				updateGUI();
 				return;
 			}
-			ReceiptItem toAddReceiptItem = new ReceiptItem(produktToAdd, itemCount);
+			ReceiptItem toAddReceiptItem = new ReceiptItem(produkt, itemCount);
 			iBon.addEintrag(toAddReceiptItem);
 			updateGUI();
 		}
