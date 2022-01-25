@@ -5,7 +5,7 @@ import javax.swing.JOptionPane;
 public class App {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		
 		
 //		ZonenEnum selectedZone = (ZonenEnum) JOptionPane.showInputDialog(null, "Bitte Tarifzone auswählen", "Tarif Automat", JOptionPane.QUESTION_MESSAGE, null, ZonenEnum.values(), ZonenEnum.B);
 		int returnIndexZone = JOptionPane.showOptionDialog(null, "Bitte Tarifzone auswählen", "Tarif Automat", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, ZonenEnum.values(), ZonenEnum.K);
